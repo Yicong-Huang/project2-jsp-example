@@ -1,9 +1,4 @@
-<%@page import="java.sql.*,
- javax.sql.*,
- java.io.IOException,
- javax.servlet.http.*,
- javax.servlet.*"
-%>
+<%@page import="java.sql.*" %>
 
 
 <%-- these statements are just normal Java code, they need to be inside the <% %> brackets--%>
@@ -11,9 +6,9 @@
     // setup the connection and execute the query
     Class.forName("com.mysql.jdbc.Driver").newInstance();
     Connection connection =
-      DriverManager.getConnection("jdbc:mysql://localhost:3306/moviedb", "mytestuser", "mypassword");
+            DriverManager.getConnection("jdbc:mysql://localhost:3306/moviedb", "mytestuser", "mypassword");
     Statement select = connection.createStatement();
-    
+
     ResultSet result = select.executeQuery("Select *  from stars limit 20");
     ResultSetMetaData metadata = result.getMetaData();
 %>
@@ -30,22 +25,20 @@
 <table>
     <%-- generate table header: name and type of each row --%>
     <tr>
-    <%-- iterate through metadata, column count starts at 1 --%>
-    <% for (int i = 1; i <= metadata.getColumnCount(); i++) { %>
-        <th><%= metadata.getColumnName(i) + ": " + metadata.getColumnTypeName(i) %></th>
-    <% } %>
+        <%-- iterate through metadata, column count starts at 1 --%>
+        <% for (int i = 1; i <= metadata.getColumnCount(); i++) { %>
+        <th><%= metadata.getColumnName(i) + ": " + metadata.getColumnTypeName(i) %>
+        </th>
+        <% } %>
     </tr>
     <%-- generate table content: for each row in result set, display a html table row --%>
     <% while (result.next()) { %>
-        <tr>
-         <%-- generate table row: iterate through the values for this column --%>
+    <tr>
+        <%-- generate table row: iterate through the values for this column --%>
         <% for (int i = 1; i <= metadata.getColumnCount(); i++) { %>
-            <th><%= result.getString(i) %></th>
+        <th><%= result.getString(i) %>
+        </th>
         <% } %>
-        </tr>
+    </tr>
     <% } %>
 </table>
-
-
-</body>
-</html>
